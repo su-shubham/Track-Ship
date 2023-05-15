@@ -1,0 +1,13 @@
+[project]
+requires-python = ">=3.10"
+
+[tool.ruff]
+# Decrease the maximum line length to 79 characters.
+line-length = 100
+
+[tools.ruff]
+select = [
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "UP",  # pyupgrade
+]
