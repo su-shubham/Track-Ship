@@ -8,17 +8,16 @@ from sqlalchemy import (
     Boolean,
     Date,
 )
-from db_config.connect import Base
+from ...db_config.connect import Base
 from sqlalchemy.orm import relationship
 
 
-"""
+class Trucks(Base):
+    """
     One to many relationship between Truck and Drivers.
     Truck can have multiple drivers but each drivers associated with only one Truck.
-"""
+    """
 
-
-class Trucks(Base):
     __tablename__ = "trucks"
     id = Column(
         Integer,

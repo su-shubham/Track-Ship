@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from db_config.connect import AsyncSessionFactory
-from repository.trucks import TrucksRepository
-from models.data.core_models import Trucks
-from models.request.trucks import TruckRequest
+from ..db_config.connect import AsyncSessionFactory
+from ..repositories.trucks_repo import TrucksRepository
+from ..models.data.core_models import Trucks
+from ..models.request.trucks_req import TruckRequest
 
 router = APIRouter(tags=["Trucks"])
 

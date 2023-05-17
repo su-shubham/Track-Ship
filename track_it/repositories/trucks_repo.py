@@ -1,4 +1,4 @@
-from models.data.core_models import Trucks
+from ..models.data.core_models import Trucks
 from sqlalchemy import insert, update, delete
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
