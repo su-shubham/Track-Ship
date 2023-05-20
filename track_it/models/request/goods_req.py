@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class GoodRequest(BaseModel):
+class GoodReq(BaseModel):
     name: str
     description: str
     quantity: int

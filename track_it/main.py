@@ -1,12 +1,16 @@
 from fastapi import FastAPI
-from .api import trucks,drivers
-api = FastAPI(title="Track & Ship", version="0.1.0")
+from .api import trucks, drivers, goods, shipments, shippers
+
+app = FastAPI(title="Track & Ship", version="0.1.0")
 
 
-api.include_router(trucks.router, prefix="/api")
-api.include_router(drivers.router, prefix="/api")
+app.include_router(trucks.router, prefix="/api")
+app.include_router(drivers.router, prefix="/api")
+app.include_router(goods.router, prefix="/api")
+app.include_router(shipments.router, prefix="/api")
+app.include_router(shippers.router, prefix="/api")
 
 
-@api.get("/")
+@app.get("/")
 def main():
     return {"message": "Welcome to Track & Ship API"}

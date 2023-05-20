@@ -2,6 +2,7 @@ from ..models.data.core_models import Drivers
 from sqlalchemy import insert, update, delete
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
+from ..models.request.drivers_req import DriverUpdateReq
 
 
 class DriversRepository:
@@ -10,17 +11,7 @@ class DriversRepository:
 
     async def insert_driver(self, driver: Drivers) -> bool:
         try:
-            query = insert(Drivers).values(
-                name=driver.name,
-                license_number=driver.license_number,
-                address=driver.address,
-                city=driver.city,
-                state=driver.state,
-                zipcode=driver.zipcode,
-                phone_no=driver.phone_no,
-                email=driver.email,
-                truck_id=driver.truck_id,
-            )
+            query = insert(Drivers).values(**driver.dict())
             query.execution_options(synchronize_session="fetch")
             await self.sess.execute(query)
         except Exception as e:  # noqa: E722
@@ -33,17 +24,41 @@ class DriversRepository:
             return query.scalars().all()
         except:
             return {"message": "Not Found"}
-        
-    async def get_one(self,id:int):
-        try:
-            query = await self.sess.execute(select(Drivers).where(Drivers.id == id))
-            return query.scalars().all()
-        except:
-            return {"message": f"Driver with id {id} not found"}    
 
-    async def get_shipments(self,id:int):
+    async def get_one(self, id: int):
         try:
             query = await self.sess.execute(select(Drivers).where(Drivers.id == id))
             return query.scalars().all()
         except:
-            return {"message": f"Driver with id {id} not found"}
+            return {"message": "Something went wrong"}
+
+    async def update_driver(self, id: int, details: DriverUpdateReq):
+        try:
+            query = update(Drivers).where(Drivers.id == id).values(**details)
+            if query is None:
+                return {"message": f"Driver with id {id} not found"}
+            query.execution_options(synchronize_session="fetch")
+            updated = await self.sess.execute(query)
+            if updated:
+                return {"message": f"Driver with id {id} updated"}
+            else:
+                return {"message": "Something went wrong"}
+        except Exception as e:  # noqa: E722
+            return e
+
+    async def delete_driver(self, id: int):
+        try:
+            query = delete(Drivers).where(Drivers.id == id)
+            query.execution_options(synchronize_session="fetch")
+            await self.sess.execute(query)
+        except Exception as e:  # noqa: E722
+            return e
+
+    async def get_truck_driver(self, id: int):
+        try:
+            query = await self.sess.execute(
+                select(Drivers).where(Drivers.truck_id == id)
+            )
+            return query.scalars().first()
+        except:
+            return {"message": "Something went wrong"}

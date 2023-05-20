@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class ShipmentRequest(BaseModel):
+class ShipmentReq(BaseModel):
     id: int
     shipment_date: str
     origin: str

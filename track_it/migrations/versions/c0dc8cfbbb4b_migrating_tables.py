@@ -47,6 +47,11 @@ def upgrade():
         sa.Column("id", sa.Integer, primary_key=True, index=True, autoincrement=True),
         sa.Column("name", sa.String, unique=False, index=False),
         sa.Column("address", sa.String, unique=False, index=False),
+        sa.Column("cities", sa.String, index=False, unique=False),
+        sa.Column("state", sa.String, index=False, unique=False),
+        sa.Column("zipcode", sa.Integer, index=False, unique=False),
+        sa.Column("phone_no", sa.Integer, unique=True, index=False),
+        sa.Column("email", sa.String, unique=True, index=False),
     )
 
     op.create_table(
@@ -74,8 +79,12 @@ def upgrade():
 
 
 def downgrade():
+    op.drop_constraint("goods_shipments_id_fkey", "goods", type_="foreignkey")
+    op.drop_constraint("shipments_truck_id_fkey", "shipments", type_="foreignkey")
+    op.drop_constraint("shipments_driver_id_fkey", "shipments", type_="foreignkey")
+    op.drop_constraint("shipments_shipper_id_fkey", "shipments", type_="foreignkey")
+    op.drop_table("goods")
     op.drop_table("shipments")
     op.drop_table("shippers")
-    op.drop_table("goods")
     op.drop_table("drivers")
     op.drop_table("trucks")

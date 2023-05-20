@@ -52,7 +52,7 @@ class Drivers(Base):
     Many to one relationship between Truck and drivers.
     Mutiple Drivers associated with only one Trucks.
     """
-    truck_id = Column(Integer, ForeignKey("trucks.id"))
+    truck_id = Column(Integer, ForeignKey("trucks.id", ondelete="CASCADE"))
     trucks = relationship("Trucks", back_populates="drivers")
 
     """
@@ -84,10 +84,15 @@ class Shippers(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, unique=False, index=False)
     address = Column(String, unique=False, index=False)
+    cities = Column(String, index=False, unique=False)
+    state = Column(String, index=False, unique=False)
+    zipcode = Column(Integer, index=False, unique=False)
+    phone_no = Column(Integer, unique=True, index=False)
+    email = Column(String, unique=True, index=False)
 
     """
     One to many relationship between Shippers and Shipments.
-    Each Shipper associated with only multiple Shipments but each Shipments associated with only one Shipper. 
+    Each Shipper associated with multiple Shipments but each Shipments associated with only one Shipper. 
     """
     shipments = relationship("Shipments", back_populates="shippers")
 
@@ -123,3 +128,8 @@ class Shipments(Base):
     goods = relationship("Goods", back_populates="shipments")
 
     date = Column(Date, index=False, unique=False)
+
+
+# class Bookings(Base):
+#     __tablename__ = "bookings"
+#     id = Column(Integer, primary_key=True, index=True, autoincrement=True)

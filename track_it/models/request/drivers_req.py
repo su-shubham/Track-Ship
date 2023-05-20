@@ -2,7 +2,6 @@ from pydantic import BaseModel
 
 
 class Drivers(BaseModel):
-    id: int
     name: str
     license_number: str
     address: str
@@ -12,6 +11,14 @@ class Drivers(BaseModel):
     phone_no: int
     email: str
     truck_id: int
+
+
+class DriverUpdateReq(BaseModel):
+    name: str
+    address: str
+    city: str
+    state: str
+    zipcode: int
 
 
 class DriverReq(Drivers):
